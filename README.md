@@ -1,17 +1,16 @@
 # Projet 
 
-Développez un programme logiciel en Python
+Développez une application Web en utilisant Django
 
 ## Installation
 
-<!-- Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar. -->
 clone repository locally
 ```bash
-git clone https://github.com/nasr-edine/P4_drai_nasr-edine.git
+git clone https://github.com/nasr-edine/P9_drai_nasr-edine.git
 ```
 Create a virtual environment in root folder of project 
 ```bash
-python -m venv env
+python3 -m venv env
 ```
 
 Activate virtual environment
@@ -20,7 +19,7 @@ source ./env/bin/activate
 ```
 Install dependencies
 ```bash
-pip3 install -r requirements.txt
+pip install -r requirements.txt
 ```
 ## Usage
 
