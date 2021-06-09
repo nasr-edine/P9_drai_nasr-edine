@@ -1,0 +1,35 @@
+{% load static %}
+<html>
+
+<head>
+    <title>LitrReview</title>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+</head>
+
+<body>
+    <header>
+        <div>
+            <h1><a href="{% url 'home' %}">LitrReview</a></h1>
+        </div>
+        <div>
+            <a href="{% url 'ticket_new' %}">+ New Ticket</a>
+        </div>
+    </header>
+
+    {% if user.is_authenticated %}
+    <p>Hi {{ user.username }} !</p>
+    <p><a href="{% url 'logout' %}">Log out</a></p>
+    {% else %}
+    <p>You are not logged in.</p>
+    <p><a href="{% url 'login' %}">Log In</a></p>
+    {% endif %}
+
+    <div>
+        {% block content %}
+
+        {% endblock content %}
+    </div>
+</body>
+
+</html>
