@@ -1,0 +1,40 @@
+<!-- templates/base.html -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LitrReview App</title>
+</head>
+
+<body>
+    <nav>
+        <div style="text-align: center;">
+            <a href="{% url 'home' %}">LitrReview</a>
+        </div>
+
+        {% if user.is_authenticated %}
+
+
+        Welcome {{ user.username }}
+        <a href="{% url 'logout' %}" style="float: right;margin-left: 10px;">Se deconnecter</a>
+        <a href="{% url 'ticket_current_user_list' %}" style="float: right;margin-left: 10px;">Posts</a>
+        <a href="{% url 'ticket_list' %}" style="float: right;">Flux</a>
+
+        {% else %}
+        <form>
+            <a href="{% url 'login' %}">Connexion</a>
+            <a href="{% url 'signup' %}">S'inscrire</a>
+        </form>
+        {% endif %}
+        <hr>
+    </nav>
+
+
+    {% block content %}
+    {% endblock content %}
+</body>
+
+</html>

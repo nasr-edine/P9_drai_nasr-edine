@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+Tous les tickets de {{ user }}
+{% endblock title %}
+
+
+{% block content %}
+<h1>Vos posts {{ user }}</h1>
+
+{% for item in object_list %}
+<a href="{% url 'ticket_detail' item.pk %}">{{item.title}}</a>
+<p>{{ item.time_created }}</p>
+<p>{{ item.description }}</p>
+<img src="{{ item.image.url }}" alt="no image" width="90" height="144">
+<div>
+    <a href="{% url 'ticket_edit' item.pk %}">Edit</a> |
+    <a href="{% url 'ticket_delete' item.pk %}">Delete</a>|
+    <a href="{% url 'review_new' item.pk %}">Creer une critique</a>
+
+</div>
+<div>
+    {% with item.comments.count as total_comments %}
+    <h2>
+        {{ total_comments }} critique{{ total_comments|pluralize }}
+    </h2>
+    {% endwith %}
+    {% for comment in item.comments.all %}
+    <div style="background-color: darkgray;">
+        <p style="color:red">
+            Critique {{ forloop.counter }} by {{ comment.user }}
+            {{ comment.time_created }}
+        </p>
+        <p>rating: {{ comment.rating }}</p>
+        <p>{{ comment.headline }}</p>
+        <p><strong>{{ comment.body|linebreaks }}</strong></p>
+        <div>
+            <a href="{% url 'review_edit' comment.pk %}">Edit</a> |
+            <a href="{% url 'review_delete' comment.pk %}">Delete</a>|
+        </div>
+    </div>
+    {% empty %}
+    <p>Il n'y a aucune critiques.</p>
+    {% endfor %}
+</div>
+<hr>
+{% endfor %}
+
+{% endblock content %}

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Modifier votre ticket</h1>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div>
+        <img src="{{ ticket.image.url }}" alt="no image" width="90" height="144">
+
+    </div>
+    <button type="submit">Envoyer</button>
+</form>
+{% endblock content %}
