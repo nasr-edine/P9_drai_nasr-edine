@@ -9,7 +9,7 @@ Tous les abonnes de {{ user }}
 
 {% block content %}
 <form action="" method="post">
-    <h1>Suive d'autres utilisateurs</h1>
+    <h1>Suivre d'autres utilisateurs</h1>
     {% csrf_token %}
     {% if form.errors %}
     {% for field in form %}
@@ -36,7 +36,7 @@ Tous les abonnes de {{ user }}
     <tr>
         <th style="border: 1px solid black;">{{ follow.followed_user }}</th>
         <td style="border: 1px solid black;">
-            <a type="button" role="button" href="{% url 'follow_delete' follow.id %}">Unfollow</a>
+            <a type="button" role="button" href="{% url 'follow_delete' follow.id %}">Se desabonner</a>
         </td>
     </tr>
 </table>

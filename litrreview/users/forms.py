@@ -18,4 +18,5 @@ class CustomUserChangeForm(UserChangeForm):
 
 
 class FollowerForm(forms.Form):
-    follower = forms.CharField(max_length=200)
+    follower = forms.CharField(max_length=200, widget=forms.TextInput(
+        attrs={'placeholder': "Nom d'utilisateur"}))
