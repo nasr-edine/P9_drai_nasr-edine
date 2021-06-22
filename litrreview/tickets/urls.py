@@ -13,4 +13,7 @@ urlpatterns = [
     path('<int:pk>/newcomment/', ReviewCreateView.as_view(), name='review_new'),
     path('<int:pk>/editreview/', ReviewUpdateView.as_view(), name='review_edit'),
     path('<int:pk>/deletereview/', ReviewDeleteView.as_view(), name='review_delete'),
+    # path("<int:pk>/newticketreview/", QuestionDetail.as_view()),  # new
+    # path('myform/', MyView.as_view()),
+
 ]
