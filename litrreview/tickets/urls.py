@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import TicketListView, TicketUpdateView, TicketDetailView, TicketDeleteView, TicketCreateView, TicketCurrentUserView, ReviewCreateView, ReviewUpdateView, ReviewDeleteView
+from .views import TicketListView, TicketUpdateView, TicketDetailView, TicketDeleteView, TicketCreateView, TicketCurrentUserView, ReviewCreateView, ReviewUpdateView, ReviewDeleteView, TicketReviewCreateView
 
 urlpatterns = [
     path('<int:pk>/edit/', TicketUpdateView.as_view(), name='ticket_edit'),
@@ -13,7 +13,7 @@ urlpatterns = [
     path('<int:pk>/newcomment/', ReviewCreateView.as_view(), name='review_new'),
     path('<int:pk>/editreview/', ReviewUpdateView.as_view(), name='review_edit'),
     path('<int:pk>/deletereview/', ReviewDeleteView.as_view(), name='review_delete'),
-    # path("<int:pk>/newticketreview/", QuestionDetail.as_view()),  # new
-    # path('myform/', MyView.as_view()),
+    path("newticketreview/", TicketReviewCreateView.as_view(),
+         name='ticket_review_new'),  # new
 
 ]

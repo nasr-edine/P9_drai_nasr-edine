@@ -1,8 +1,8 @@
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
+from django.views.generic import CreateView, FormView
 from django.views.generic.edit import DeleteView
 from .forms import CustomUserCreationForm, FollowerForm
-from django.views.generic import ListView, FormView
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ValidationError
 from django.db.models import Q

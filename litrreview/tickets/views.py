@@ -1,17 +1,18 @@
 from django.db.models import fields
 from django.http import request
-from django.views.generic import View, ListView, DetailView, TemplateView
+from django.views.generic import View, ListView, DetailView, TemplateView, FormView
 from django.views.generic.edit import UpdateView, DeleteView, CreateView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
-from .forms import CommentForm, ResponseForm  # new
 from django import forms
 from django.shortcuts import render, get_object_or_404
 from django.forms import ModelForm
+from django.utils.safestring import mark_safe
 
 from .models import Ticket
 from .models import Review
+from .forms import TicketReviewForm
 
 
 class TicketListView(LoginRequiredMixin, ListView):
@@ -79,10 +80,26 @@ class TicketCurrentUserView(LoginRequiredMixin, ListView):
         return ordered_posts_current_user
 
 
+class ReviewForm(forms.ModelForm):
+    CHOICES = [('1', '1'),
+               ('2', '2'),
+               ('3', '3'),
+               ('4', '4'),
+               ('5', '5')]
+    rating = forms.ChoiceField(
+        choices=CHOICES,
+        label='rating',
+    )
+
+    class Meta:
+        model = Review
+        fields = ['headline', 'rating', 'body']
+
+
 class ReviewCreateView(LoginRequiredMixin, CreateView):
     model = Review
+    form_class = ReviewForm
     template_name = "review_new.html"
-    fields = ('headline', 'rating', 'body')
     login_url = 'login'
 
     def get_context_data(self, **kwargs):
@@ -97,6 +114,37 @@ class ReviewCreateView(LoginRequiredMixin, CreateView):
         form.instance.ticket = ctx['ticket']
         return super().form_valid(form)
 
+
+class TicketReviewCreateView(LoginRequiredMixin, FormView):
+    model = Ticket
+    login_url = 'login'
+    # context = {}
+    form_class = TicketReviewForm
+    template_name = "review_ticket_new.html"
+
+    success_url = reverse_lazy('ticket_list')
+
+    def form_valid(self, form):
+
+        title = form.cleaned_data['title']
+        description = form.cleaned_data['description']
+        image = form.cleaned_data['image']
+
+        headline = form.cleaned_data['headline']
+        body = form.cleaned_data['body']
+        rating = form.cleaned_data['rating']
+
+        ticket = Ticket(
+            title=title,
+            description=description,
+            image=image,
+            user=self.request.user,
+        )
+        ticket.save()
+        review = Review(user=self.request.user, headline=headline,
+                        rating=rating, body=body, ticket=ticket)
+        review.save()
+        return super().form_valid(form)
 
 # class TicketForm(forms.Form):
 #     title = forms.CharField(max_length=128)
@@ -150,7 +198,7 @@ class ReviewCreateView(LoginRequiredMixin, CreateView):
 
 class ReviewUpdateView(LoginRequiredMixin, UpdateView):
     model = Review
-    fields = ('headline', 'rating', 'body',)
+    form_class = ReviewForm
     template_name = "review_edit.html"
     login_url = 'login'
 
@@ -172,6 +220,3 @@ class ReviewDeleteView(LoginRequiredMixin, DeleteView):
         if obj.user != self.request.user:
             raise PermissionDenied
         return super().dispatch(request, *args, **kwargs)
-
-
-
