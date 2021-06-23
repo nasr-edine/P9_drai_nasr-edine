@@ -41,7 +41,7 @@ class Review(models.Model):
         ordering = ('-time_created',)
 
     def __str__(self):
-        return 'Comment by  on {}'.format(self.body)
+        return '{}'.format(self.body)
 
     def get_absolute_url(self):
         return reverse('ticket_list')

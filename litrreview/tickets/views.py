@@ -9,6 +9,7 @@ from django import forms
 from django.shortcuts import render, get_object_or_404
 from django.forms import ModelForm
 from django.utils.safestring import mark_safe
+from itertools import chain
 
 from .models import Ticket
 from .models import Review
@@ -22,7 +23,15 @@ class TicketListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         ordered_tickets_by_date = self.model.objects.order_by('-time_created')
-        return ordered_tickets_by_date
+        ordered_review_by_date = Review.objects.order_by('-time_created')
+        print(ordered_review_by_date)
+        result_list = list(
+            chain(ordered_tickets_by_date, ordered_review_by_date))
+        result_list2 = sorted(chain(
+            ordered_tickets_by_date, ordered_review_by_date), key=lambda instance: instance.time_created, reverse=True)
+        print(result_list)
+        print(result_list2)
+        return result_list2
 
 
 class TicketDetailView(LoginRequiredMixin, DetailView):

@@ -1,65 +1,105 @@
 {% extends 'base.html' %}
-
+{% load custom_template_tags %}
 
 {% block title %}
 Tickets
 {% endblock title %}
 
 {% block content %}
-<form action="{% url 'ticket_new' %}" style="text-align: center; float: left;">
-    <input type="submit" value="Demander une critique" />
-</form>
-<form action="{% url 'ticket_review_new' %}">
-    <input type="submit" value="Creer une critique" />
-</form>
-{% for ticket in object_list %}
-<div>
-
-    <h2>
-        <p>Ticket {{ forloop.counter }} - {{ticket.user}}
-    </h2>
-    <h2>
-        <a href="{% url 'ticket_detail' ticket.pk %}">{{ticket.title}}</a>
-    </h2>
-    </p>
-    <div>
-        {{ticket.time_created}}
+<div style="width: 100%;margin-bottom: 20px;margin-top: 30px;">
+    <div style="width: 50%; float: left; text-align: right;">
+        <form action="{% url 'ticket_new' %}" style="margin-right: 20px;">
+            <input style="width: 20em;  height: 2em;" type="submit" value="Demander une critique" />
+        </form>
     </div>
+    <div style="margin-left: 50%; ">
+        <form style="margin-left: 20px;" action="{% url 'ticket_review_new' %}">
+            <input style="width: 20em;  height: 2em;" type="submit" value="Creer une critique" />
+        </form>
+    </div>
+</div>
+
+{% for ticket in object_list %}
+{% if ticket.title %}
+<div style="border-style: dotted;width: 80%;margin: auto;word-wrap:break-word;">
+    <div style="font-size: 10px; text-align: right;vertical-align: text-top;">
+        {{ ticket.time_created }}
+    </div>
+    <div>{{ticket.user}} a demande une critique</div>
+    <br>
+    <div><a href="{% url 'ticket_detail' ticket.pk %}">{{ticket.title}}</a></div>
     <p>{{ticket.description}}</p>
     <img src="{{ ticket.image.url }}" alt="no image" width="90" height="144">
 
-    <div>
-        <a href="{% url 'ticket_edit' ticket.pk %}">Edit</a> |
-        <a href="{% url 'ticket_delete' ticket.pk %}">Delete</a>|
-        <a href="{% url 'review_new' ticket.pk %}">Creer une critique</a>
+    {% if  ticket.comments.all %}
+    {% if ticket.comments.all|length_is:"1" %}
+    {% for comment in ticket.comments.all %}
+    {% ifnotequal  comment.user.username user.username %}
+    {% ifequal comment.user.username ticket.user.username %}
+    <div style=" text-align: right;margin-right: 20px;margin-bottom: 20px;">
+        <form action="{% url 'review_new' ticket.pk %}">
+            <input style="width: 10em;  height: 3em;" type="submit" value="Creer une critique" />
+        </form>
     </div>
+    {% endifequal %}
+    {% endifnotequal %}
+
+    {% endfor %}
+    {% endif %}
+    {% else %}
+    <div style=" text-align: right;margin-right: 20px;margin-bottom: 20px;">
+        <!-- <a href="{% url 'ticket_edit' ticket.pk %}">Edit</a> | -->
+        <!-- <a href="{% url 'ticket_delete' ticket.pk %}">Delete</a>| -->
+        <!-- <a href=""></a> -->
+        <form action="{% url 'review_new' ticket.pk %}">
+            <input style="width: 10em;  height: 3em;" type="submit" value="Creer une critique" />
+        </form>
+    </div>
+    {% endif %}
+
+</div>
+<hr>
+{% else %}
+<div style="border-style: dotted;width: 80%;margin: auto;word-wrap:break-word;">
     <div>
-        {% with ticket.comments.count as total_comments %}
-        <h2>
-            {{ total_comments }} critique{{ total_comments|pluralize }}
-        </h2>
-        {% endwith %}
-        {% for comment in ticket.comments.all %}
-        <div style="background-color: darkgray;">
-
-            <p style="color:red">
-                Critique {{ forloop.counter }} by {{ comment.user }}
-                {{ comment.time_created }}
-            </p>
-            <p>rating: {{ comment.rating }}</p>
-            <p>{{ comment.headline }}</p>
-            <p><strong>{{ comment.body|linebreaks }}</strong></p>
-            <div>
-                <a href="{% url 'review_edit' comment.pk %}">Edit</a> |
-                <a href="{% url 'review_delete' comment.pk %}">Delete</a>|
-            </div>
-
+        <!-- Critique {{ forloop.counter }} by {{ ticket.user }} -->
+        <div>{{ ticket.user }} a publie une critique</div>
+        <div style="font-size: 10px; text-align: right;vertical-align: text-top;">{{ ticket.time_created }}</div>
+    </div>
+    <p style="font-size: 20px;">{{ ticket.headline }} - rating: {{ ticket.rating }}</p>
+    <p></p>
+    <p>{{ ticket.body|linebreaks }}</p>
+    <div style="border-style: dotted;width: 500px;margin: auto;word-wrap:break-word;">
+        <div>Ticket - {{ticket.ticket.user}}</div>
+        <br>
+        <div>{{ticket.ticket.title}}</div>
+        <p>{{ ticket.ticket.description }}</p>
+        <img src="{{ ticket.ticket.image.url }}" alt="no image" width="90" height="144">
+        <div>
+            <!-- <a href="{% url 'review_edit' ticket.pk %}">Edit</a> | -->
+            <!-- <a href="{% url 'review_delete' ticket.pk %}">Delete</a>| -->
         </div>
-        {% empty %}
-        <p>Il n'y a aucune critiques.</p>
+
+        {% if ticket.ticket.comments.all|length_is:"1" %}
+        {% for comment in ticket.ticket.comments.all %}
+        {% ifnotequal  comment.user.username user.username %}
+        {% ifequal comment.user.username ticket.ticket.user.username %}
+        <div style=" text-align: right;margin-right: 20px;margin-bottom: 20px;">
+            <form action="{% url 'review_new' ticket.pk %}">
+                <input style="width: 10em;  height: 3em;" type="submit" value="Creer une critique" />
+            </form>
+        </div>
+        {% endifequal %}
+        {% endifnotequal %}
+
+
         {% endfor %}
+        {% endif %}
     </div>
 </div>
 <hr>
+{% endif %}
 {% endfor %}
+
+
 {% endblock content %}
