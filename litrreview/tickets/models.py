@@ -19,7 +19,7 @@ class Ticket(models.Model):
         on_delete=models.CASCADE, )
 
     def __str__(self):
-        return self.title
+        return self.user.username
 
     def get_absolute_url(self):
         return reverse('ticket_detail', args=[str(self.id)])
@@ -41,7 +41,7 @@ class Review(models.Model):
         ordering = ('-time_created',)
 
     def __str__(self):
-        return '{}'.format(self.body)
+        return self.user.username
 
     def get_absolute_url(self):
         return reverse('ticket_list')

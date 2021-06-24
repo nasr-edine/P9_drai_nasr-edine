@@ -6,6 +6,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <title>LitrReview App</title>
 </head>
 
@@ -14,16 +17,12 @@
         <div style="text-align: center;">
             <a href="{% url 'home' %}">LitrReview</a>
         </div>
-
         {% if user.is_authenticated %}
-
-
         Welcome {{ user.username }}
         <a href="{% url 'logout' %}" style="float: right;margin-left: 10px;">Se deconnecter</a>
         <a href="{% url 'follow' %}" style="float: right;margin-left: 10px;">Abonnements</a>
         <a href="{% url 'ticket_current_user_list' %}" style="float: right;margin-left: 10px;">Posts</a>
         <a href="{% url 'ticket_list' %}" style="float: right;">Flux</a>
-
         {% else %}
         <form>
             <a href="{% url 'login' %}">Connexion</a>
@@ -32,8 +31,6 @@
         {% endif %}
         <hr>
     </nav>
-
-
     {% block content %}
     {% endblock content %}
 </body>

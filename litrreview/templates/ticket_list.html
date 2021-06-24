@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 
+
 {% block title %}
 Tickets
 {% endblock title %}
@@ -20,13 +21,13 @@ Tickets
 
 {% for ticket in object_list %}
 {% if ticket.title %}
-<div style="border-style: dotted;width: 80%;margin: auto;word-wrap:break-word;">
+<div style="border-style: solid;width: 50%;margin: auto;word-wrap:break-word;">
     <div style="font-size: 10px; text-align: right;vertical-align: text-top;">
         {{ ticket.time_created }}
     </div>
     <div>{{ticket.user}} a demande une critique</div>
     <br>
-    <div><a href="{% url 'ticket_detail' ticket.pk %}">{{ticket.title}}</a></div>
+    <div>{{ticket.title}}</div>
     <p>{{ticket.description}}</p>
     <img src="{{ ticket.image.url }}" alt="no image" width="90" height="144">
 
@@ -59,7 +60,7 @@ Tickets
 </div>
 <hr>
 {% else %}
-<div style="border-style: dotted;width: 80%;margin: auto;word-wrap:break-word;">
+<div style="border-style: solid;width: 50%;margin: auto;word-wrap:break-word;">
     <div>
         <!-- Critique {{ forloop.counter }} by {{ ticket.user }} -->
         <div>{{ ticket.user }} a publie une critique</div>
@@ -68,7 +69,7 @@ Tickets
     <p style="font-size: 20px;">{{ ticket.headline }} - rating: {{ ticket.rating }}</p>
     <p></p>
     <p>{{ ticket.body|linebreaks }}</p>
-    <div style="border-style: dotted;width: 500px;margin: auto;word-wrap:break-word;">
+    <div style="border-style: solid;width: 90%;margin: auto;word-wrap:break-word;">
         <div>Ticket - {{ticket.ticket.user}}</div>
         <br>
         <div>{{ticket.ticket.title}}</div>

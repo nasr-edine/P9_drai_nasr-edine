@@ -13,6 +13,7 @@ from itertools import chain
 
 from .models import Ticket
 from .models import Review
+from users.models import UserFollows
 from .forms import TicketReviewForm
 
 
@@ -24,8 +25,26 @@ class TicketListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         ordered_tickets_by_date = self.model.objects.order_by('-time_created')
         ordered_review_by_date = Review.objects.order_by('-time_created')
+        # todo add filter for users I follow
+        # Get instances of my following
+        my_following = UserFollows.objects.filter(user=self.request.user)
+
+        # Get id list of my following
+        following_ticket_list = [
+            follower.followed_user.id for follower in my_following]
+
+        # include also myself in list for display my own posts
+        following_ticket_list.append(self.request.user.id)
+
+        # Finally filter all posts by my following list
+        filtered_tickets_by_users_i_follow = self.model.objects.filter(
+            user__in=following_ticket_list)
+        filtered_reviews_by_users_i_follow = Review.objects.filter(
+            user__in=following_ticket_list)
+
         result_list2 = sorted(chain(
-            ordered_tickets_by_date, ordered_review_by_date), key=lambda instance: instance.time_created, reverse=True)
+            filtered_tickets_by_users_i_follow, filtered_reviews_by_users_i_follow), key=lambda instance: instance.time_created, reverse=True)
+
         return result_list2
 
 
@@ -39,6 +58,7 @@ class TicketUpdateView(LoginRequiredMixin, UpdateView):
     model = Ticket
     fields = ('title', 'description', 'image',)
     template_name = "ticket_edit.html"
+    success_url = reverse_lazy('ticket_current_user_list')
     login_url = 'login'
 
     def dispatch(self, request, *args, **kwargs):
@@ -215,6 +235,7 @@ class ReviewUpdateView(LoginRequiredMixin, UpdateView):
     model = Review
     form_class = ReviewForm
     template_name = "review_edit.html"
+    success_url = reverse_lazy('ticket_current_user_list')
     login_url = 'login'
 
     def dispatch(self, request, *args, **kwargs):
