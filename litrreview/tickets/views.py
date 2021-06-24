@@ -24,13 +24,8 @@ class TicketListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         ordered_tickets_by_date = self.model.objects.order_by('-time_created')
         ordered_review_by_date = Review.objects.order_by('-time_created')
-        print(ordered_review_by_date)
-        result_list = list(
-            chain(ordered_tickets_by_date, ordered_review_by_date))
         result_list2 = sorted(chain(
             ordered_tickets_by_date, ordered_review_by_date), key=lambda instance: instance.time_created, reverse=True)
-        print(result_list)
-        print(result_list2)
         return result_list2
 
 
@@ -69,6 +64,7 @@ class TicketDeleteView(LoginRequiredMixin, DeleteView):
 class TicketCreateView(LoginRequiredMixin, CreateView):
     model = Ticket
     template_name = "ticket_new.html"
+
     fields = ('title', 'description', 'image')
     login_url = 'login'
 
@@ -84,9 +80,12 @@ class TicketCurrentUserView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         posts_current_user = self.model.objects.filter(user=self.request.user)
-        ordered_posts_current_user = posts_current_user.order_by(
-            '-time_created')
-        return ordered_posts_current_user
+        ordered_posts = posts_current_user.order_by('-time_created')
+        reviews_current_user = Review.objects.filter(user=self.request.user)
+        ordered_review = reviews_current_user.order_by('-time_created')
+        result_list2 = sorted(chain(
+            ordered_posts, ordered_review), key=lambda instance: instance.time_created, reverse=True)
+        return result_list2
 
 
 class ReviewForm(forms.ModelForm):
@@ -99,6 +98,13 @@ class ReviewForm(forms.ModelForm):
         choices=CHOICES,
         label='rating',
     )
+    body = forms.CharField(widget=forms.Textarea)
+
+    def __init__(self, *args, **kwargs):
+        super(ReviewForm, self).__init__(*args, **kwargs)
+        self.fields['headline'].label = "Titre"
+        self.fields['rating'].label = "Note"
+        self.fields['body'].label = "Commentaire"
 
     class Meta:
         model = Review

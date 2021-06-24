@@ -4,9 +4,11 @@
 <h1 style="text-align:center;">Modifier votre critique</h1>
 <div style="padding: 50px;border-style: solid;width: 70%;margin: auto;word-wrap:break-word;">
     <p>Vous etes entrain de poster en reponse a:</p>
-    <div style="border-style: dotted;width: 500px;margin: auto;word-wrap:break-word;">
-        <h2>{{ review.ticket.title }}</h2>
-        <p>{{review.ticket.user}} | {{ review.ticket.time_created }}</p>
+    <div style="border-style: solid;width: 500px;margin: auto;word-wrap:break-word;">
+        <div style="font-size: 10px; text-align: right;vertical-align: text-top;">{{ review.ticket.time_created }}</div>
+        <div>{{review.ticket.user}} a demande une critique</div>
+        <p>{{ review.ticket.title }}</p>
+        <!-- <p>{{review.ticket.user}} | {{ review.ticket.time_created }}</p> -->
         <p>{{ review.ticket.description }}</p>
         <img src="{{ review.ticket.image.url }}" alt="no image" width="90" height="144">
     </div>

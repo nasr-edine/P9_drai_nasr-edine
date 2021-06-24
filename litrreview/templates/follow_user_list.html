@@ -8,7 +8,7 @@ Tous les abonnes de {{ user }}
 
 
 {% block content %}
-<form action="" method="post">
+<form style="text-align: center;" action="" method="post">
     <h1>Suivre d'autres utilisateurs</h1>
     {% csrf_token %}
     {% if form.errors %}
@@ -30,23 +30,24 @@ Tous les abonnes de {{ user }}
     <input type="submit" value="Envoyer">
 </form>
 
-<h1>Abonnements</h1>
-{% for follow in follow_user %}
-<table style="border: 1px solid black;width: 50%;">
-    <tr>
-        <th style="border: 1px solid black;">{{ follow.followed_user }}</th>
-        <td style="border: 1px solid black;">
-            <a type="button" role="button" href="{% url 'follow_delete' follow.id %}">Se desabonner</a>
-        </td>
-    </tr>
-</table>
+<h1 style="text-align: center;">Abonnements</h1>
+<div>
+    <table style="width: 80%;margin-left: auto; margin-right: auto;">
+        {% for follow in follow_user %}
+        <tr>
+            <th style="text-align: left;width: 80%; border: 1px solid black;">{{ follow.followed_user }}</th>
+            <td style="text-align: center; border: 1px solid black;">
+                <a type="button" role="button" href="{% url 'follow_delete' follow.id %}">Desabonner</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
 
+</div>
 
-{% endfor %}
-
-<h1>Abonnees</h1>
+<h1 style="text-align: center;">Abonnes</h1>
 {% for follower in followed_by %}
-<table style="border: 1px solid black;width: 50%;">
+<table style="margin-left: auto; margin-right: auto;width: 80%;border: 1px solid black;">
     <tr>
         <td>
             {{ follower.user }}

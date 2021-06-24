@@ -9,7 +9,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 class Ticket(models.Model):
-    title = models.CharField(max_length=128)
+    title = models.CharField(verbose_name="Titre", max_length=128)
     description = models.TextField(max_length=2048, blank=True)
     time_created = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(upload_to='images/', null=True, blank=True)
