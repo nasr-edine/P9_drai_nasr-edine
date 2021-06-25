@@ -1,5 +1,7 @@
 from django.urls import path
-from .views import SignUpView, FollowCreateView, FollowDeleteView
+
+from .views import FollowCreateView, FollowDeleteView, SignUpView
+
 # from .views import SignUpView, FollowUserView
 
 urlpatterns = [

@@ -1,18 +1,10 @@
 from django.urls import path
 
-# from .views import
-from .views import (
-    TicketListView,
-    TicketUpdateView,
-    TicketDetailView,
-    TicketDeleteView,
-    TicketCreateView,
-    TicketCurrentUserView,
-    ReviewCreateView,
-    ReviewUpdateView,
-    ReviewDeleteView,
-    TicketReviewCreateView
-)
+from .views import (ReviewCreateView, ReviewDeleteView, ReviewUpdateView,
+                    TicketCreateView, TicketCurrentUserView, TicketDeleteView,
+                    TicketDetailView, TicketListView, TicketReviewCreateView,
+                    TicketUpdateView)
+
 urlpatterns = [
     path('<int:pk>/edit/', TicketUpdateView.as_view(), name='ticket_edit'),
     path('<int:pk>/', TicketDetailView.as_view(), name='ticket_detail'),

@@ -1,20 +1,16 @@
-# from django.db.models import fields
-# from django.http import request
-from django.views.generic import ListView, DetailView, FormView
-from django.views.generic.edit import UpdateView, DeleteView, CreateView
-from django.urls import reverse_lazy
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.exceptions import PermissionDenied
-from django import forms
-# from django.shortcuts import render, get_object_or_404
-# from django.forms import ModelForm
-# from django.utils.safestring import mark_safe
 from itertools import chain
 
-from .models import Ticket
-from .models import Review
+from django import forms
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
+from django.urls import reverse_lazy
+from django.views.generic import DetailView, FormView, ListView
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
+
 from users.models import UserFollows
+
 from .forms import TicketReviewForm
+from .models import Review, Ticket
 
 
 class TicketListView(LoginRequiredMixin, ListView):

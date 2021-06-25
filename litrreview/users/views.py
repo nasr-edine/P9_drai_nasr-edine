@@ -1,13 +1,11 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
+from django.db.models import Q
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, FormView
 from django.views.generic.edit import DeleteView
+
 from .forms import CustomUserCreationForm, FollowerForm
-
-from django.contrib.auth.mixins import LoginRequiredMixin
-# from django.core.exceptions import ValidationError
-from django.db.models import Q
-from django.core.exceptions import PermissionDenied
-
 from .models import CustomUser, UserFollows
 
 # Create your views here.
@@ -17,29 +15,6 @@ class SignUpView(CreateView):
     form_class = CustomUserCreationForm
     success_url = reverse_lazy('login')
     template_name = 'signup.html'
-
-
-# class FollowUserView(LoginRequiredMixin, ListView):
-#     model = UserFollows
-#     template_name = 'follow_user_list.html'
-#     login_url = 'login'
-
-#     def get_queryset(self):
-#         follow_user = self.model.objects.filter(user=self.request.user)
-#         # ordered_posts_current_user = posts_current_user.order_by(
-#         #     '-time_created')
-#         followed_by = self.model.objects.filter(
-#             followed_user=self.request.user)
-#         return followed_by
-#         # return follow_user
-
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context['follow_user'] = self.model.objects.filter(
-#             user=self.request.user)
-#         context['followed_by'] = self.model.objects.filter(
-#             followed_user=self.request.user)
-#         return context
 
 
 class FollowCreateView(LoginRequiredMixin, FormView):
@@ -54,11 +29,9 @@ class FollowCreateView(LoginRequiredMixin, FormView):
     def get_context_data(self, **kwargs):
         self.context = super().get_context_data(**kwargs)
         self.context['username'] = CustomUser.objects.all()
-        # print(self.context['username'])
 
         self.context['follow_user'] = self.model.objects.filter(
             user=self.request.user)
-        # print(self.request.user)
         self.context['followed_by'] = self.model.objects.filter(
             followed_user=self.request.user)
         return self.context

@@ -1,11 +1,9 @@
 from django.contrib import admin
-# from django.contrib.admin.options import ModelAdmin
 
-from .models import Ticket, Review
+from .models import Review, Ticket
 
 
 class ReviewInline(admin.TabularInline):
-    # class ReviewInline(admin.StackedInline):
     model = Review
 
 
