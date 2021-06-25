@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from .models import CustomUser, UserFollows
+from .models import CustomUser
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -18,5 +18,7 @@ class CustomUserChangeForm(UserChangeForm):
 
 
 class FollowerForm(forms.Form):
-    follower = forms.CharField(max_length=200, widget=forms.TextInput(
+    follower = forms.CharField(max_length=200, label="Nom de l'utilisateur a suivre", widget=forms.TextInput(
         attrs={'placeholder': "Nom d'utilisateur"}))
+    title = forms.CharField(max_length=200, label='Titre', widget=forms.TextInput(
+        attrs={'placeholder': 'Titre du ticket'}))

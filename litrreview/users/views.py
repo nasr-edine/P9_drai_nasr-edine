@@ -4,7 +4,7 @@ from django.views.generic.edit import DeleteView
 from .forms import CustomUserCreationForm, FollowerForm
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.exceptions import ValidationError
+# from django.core.exceptions import ValidationError
 from django.db.models import Q
 from django.core.exceptions import PermissionDenied
 

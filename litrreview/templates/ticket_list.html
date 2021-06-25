@@ -6,58 +6,63 @@ Tickets
 {% endblock title %}
 
 {% block content %}
-<div style="width: 100%;margin-bottom: 20px;margin-top: 30px;">
-    <div style="width: 50%; float: left; text-align: right;">
-        <form action="{% url 'ticket_new' %}" style="margin-right: 20px;">
-            <input style="width: 20em;  height: 2em;" type="submit" value="Demander une critique" />
-        </form>
+<div class="row justify-content-md-center">
+    <div class="col-sm-3">
+        <a class="btn btn-secondary btn-lg btn-block" href="{% url 'ticket_new' %}" role="button">Demander une
+            critique</a>
     </div>
-    <div style="margin-left: 50%; ">
-        <form style="margin-left: 20px;" action="{% url 'ticket_review_new' %}">
-            <input style="width: 20em;  height: 2em;" type="submit" value="Creer une critique" />
-        </form>
+    <div class="col-sm-3">
+        <a class="btn btn-secondary btn-lg btn-block" href="{% url 'ticket_review_new' %}" role="button">Creer une
+            critique</a>
     </div>
 </div>
 
 {% for ticket in object_list %}
 {% if ticket.title %}
-<div style="border-style: solid;width: 50%;margin: auto;word-wrap:break-word;">
-    <div style="font-size: 10px; text-align: right;vertical-align: text-top;">
-        {{ ticket.time_created }}
-    </div>
-    <div>{{ticket.user}} a demande une critique</div>
-    <br>
-    <div>{{ticket.title}}</div>
-    <p>{{ticket.description}}</p>
-    <img src="{{ ticket.image.url }}" alt="no image" width="90" height="144">
+<div class="container">
+    <div class="row">
+        <div class="col">
+        </div>
+        <div class="col-6 border border-dark">
+            <!-- <span class=""></span> -->
 
-    {% if  ticket.comments.all %}
-    {% if ticket.comments.all|length_is:"1" %}
-    {% for comment in ticket.comments.all %}
-    {% ifnotequal  comment.user.username user.username %}
-    {% ifequal comment.user.username ticket.user.username %}
-    <div style=" text-align: right;margin-right: 20px;margin-bottom: 20px;">
-        <form action="{% url 'review_new' ticket.pk %}">
-            <input style="width: 10em;  height: 3em;" type="submit" value="Creer une critique" />
-        </form>
-    </div>
-    {% endifequal %}
-    {% endifnotequal %}
+            <h3><a href="#">{{ticket.title}}</a></h3>
+            <p><small>Posted by <a href="#">{{ticket.user}}</a> {{ ticket.time_created }}</small></p>
+            <p>{{ticket.description}}</p>
+            <p><a href="#">Read More</a></p>
+            <img src="{{ ticket.image.url }}" alt="no image" width="90" height="144">
+            <img src="{{ ticket.image.url }}" class="img-thumbnail" alt="Image Thumbnail">
 
-    {% endfor %}
-    {% endif %}
-    {% else %}
-    <div style=" text-align: right;margin-right: 20px;margin-bottom: 20px;">
-        <!-- <a href="{% url 'ticket_edit' ticket.pk %}">Edit</a> | -->
-        <!-- <a href="{% url 'ticket_delete' ticket.pk %}">Delete</a>| -->
-        <!-- <a href=""></a> -->
-        <form action="{% url 'review_new' ticket.pk %}">
-            <input style="width: 10em;  height: 3em;" type="submit" value="Creer une critique" />
-        </form>
+            {% if  ticket.comments.all %}
+            {% if ticket.comments.all|length_is:"1" %}
+            {% for comment in ticket.comments.all %}
+            {% ifnotequal  comment.user.username user.username %}
+            {% ifequal comment.user.username ticket.user.username %}
+            <div style=" text-align: right;margin-right: 20px;margin-bottom: 20px;">
+                <form action="{% url 'review_new' ticket.pk %}">
+                    <input style="width: 10em;  height: 3em;" type="submit" value="Creer une critique" />
+                </form>
+            </div>
+            {% endifequal %}
+            {% endifnotequal %}
+            {% endfor %}
+            {% endif %}
+            {% else %}
+            <div style=" text-align: right;margin-right: 20px;margin-bottom: 20px;">
+                <form action="{% url 'review_new' ticket.pk %}">
+                    <input style="width: 10em;  height: 3em;" type="submit" value="Creer une critique" />
+                </form>
+                <a class="btn btn-primary btn-lg btn-block" href="{% url 'review_new' ticket.pk %}" role="button">Creer
+                    une
+                    critique</a>
+            </div>
+            {% endif %}
+        </div>
+        <div class="col">
+        </div>
     </div>
-    {% endif %}
-
 </div>
+
 <hr>
 {% else %}
 <div style="border-style: solid;width: 50%;margin: auto;word-wrap:break-word;">

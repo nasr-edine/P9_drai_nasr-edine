@@ -12,6 +12,7 @@
 <form method="post">
     {% csrf_token %}
     <p>Are you sure you want to delete "{{ review.headline }}" ?</p>
-    <button type="submit">Confirm</button>
+    <button class="btn btn-danger ml-2" type="submit">Confirmer</button>
+
 </form>
 {% endblock content %}

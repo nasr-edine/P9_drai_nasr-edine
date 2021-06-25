@@ -1,14 +1,14 @@
-from django.db.models import fields
-from django.http import request
-from django.views.generic import View, ListView, DetailView, TemplateView, FormView
+# from django.db.models import fields
+# from django.http import request
+from django.views.generic import ListView, DetailView, FormView
 from django.views.generic.edit import UpdateView, DeleteView, CreateView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django import forms
-from django.shortcuts import render, get_object_or_404
-from django.forms import ModelForm
-from django.utils.safestring import mark_safe
+# from django.shortcuts import render, get_object_or_404
+# from django.forms import ModelForm
+# from django.utils.safestring import mark_safe
 from itertools import chain
 
 from .models import Ticket
@@ -23,8 +23,8 @@ class TicketListView(LoginRequiredMixin, ListView):
     login_url = 'login'
 
     def get_queryset(self):
-        ordered_tickets_by_date = self.model.objects.order_by('-time_created')
-        ordered_review_by_date = Review.objects.order_by('-time_created')
+        # ordered_tickets_by_date = self.model.objects.order_by('-time_created')
+        # ordered_review_by_date = Review.objects.order_by('-time_created')
         # todo add filter for users I follow
         # Get instances of my following
         my_following = UserFollows.objects.filter(user=self.request.user)
@@ -43,7 +43,8 @@ class TicketListView(LoginRequiredMixin, ListView):
             user__in=following_ticket_list)
 
         result_list2 = sorted(chain(
-            filtered_tickets_by_users_i_follow, filtered_reviews_by_users_i_follow), key=lambda instance: instance.time_created, reverse=True)
+            filtered_tickets_by_users_i_follow, filtered_reviews_by_users_i_follow),
+            key=lambda instance: instance.time_created, reverse=True)
 
         return result_list2
 

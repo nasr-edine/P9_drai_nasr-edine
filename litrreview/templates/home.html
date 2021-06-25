@@ -6,8 +6,11 @@ Home
 {% endblock title %}
 
 {% block content %}
-<h1>LittrReview app</h1>
-<p>Un site de critique de livres fait en Django</p>
-<p><a href="{% url 'ticket_list' %}">Flux</a></p>
-
+<div class="jumbotron">
+    <h1 class="display-4">LittrReview app</h1>
+    <p class="lead">Un site de critique de livres fait en Django.</p>
+    <p class="lead">
+        <a class="btn btn-primary btn-lg" href="{% url 'ticket_list' %}" role="button">Votre Flux</a>
+    </p>
+</div>
 {% endblock content %}

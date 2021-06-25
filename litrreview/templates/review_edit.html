@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load crispy_forms_tags %}
+
 {% block content %}
 <h1 style="text-align:center;">Modifier votre critique</h1>
 <div style="padding: 50px;border-style: solid;width: 70%;margin: auto;word-wrap:break-word;">
@@ -16,8 +18,8 @@
     <p>Critique</p>
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Envoyer</button>
+        {{ form|crispy }}
+        <button class="btn btn-info ml-2" type="submit">Envoyer</button>
     </form>
 </div>
 {% endblock content %}
