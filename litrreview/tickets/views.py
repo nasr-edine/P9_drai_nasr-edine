@@ -38,11 +38,15 @@ class TicketListView(LoginRequiredMixin, ListView):
         filtered_reviews_by_users_i_follow = Review.objects.filter(
             user__in=following_ticket_list)
 
-        result_list2 = sorted(chain(
+        #  the merge/combine operator | only works on querysets from the same model and before the slicing it.
+        # mergeQueryset = filtered_tickets_by_users_i_follow | filtered_reviews_by_users_i_follow  # merge querysets
+        # recent_stories = mergeQueryset.distinct().order_by('-date')
+
+        ticket_and_review_merged = sorted(chain(
             filtered_tickets_by_users_i_follow, filtered_reviews_by_users_i_follow),
             key=lambda instance: instance.time_created, reverse=True)
 
-        return result_list2
+        return ticket_and_review_merged
 
 
 class TicketDetailView(LoginRequiredMixin, DetailView):

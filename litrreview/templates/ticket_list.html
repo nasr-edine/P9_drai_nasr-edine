@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load humanize %}
+
 
 {% block title %}
 Tickets
@@ -27,7 +29,7 @@ Tickets
             <!-- <span class=""></span> -->
 
             <h3><a href="#">{{ticket.title}}</a></h3>
-            <p><small>Posted by <a href="#">{{ticket.user}}</a> {{ ticket.time_created }}</small></p>
+            <p><small>Posted by <a href="#">{{ticket.user}}</a> {{ ticket.time_created|naturaltime }}</small></p>
             <p>{{ticket.description}}</p>
             <p><a href="#">Read More</a></p>
             <img src="{{ ticket.image.url }}" alt="no image" width="90" height="144">
@@ -69,7 +71,8 @@ Tickets
     <div>
         <!-- Critique {{ forloop.counter }} by {{ ticket.user }} -->
         <div>{{ ticket.user }} a publie une critique</div>
-        <div style="font-size: 10px; text-align: right;vertical-align: text-top;">{{ ticket.time_created }}</div>
+        <div style="font-size: 10px; text-align: right;vertical-align: text-top;">{{ ticket.time_created|naturaltime }}
+        </div>
     </div>
     <p style="font-size: 20px;">{{ ticket.headline }} - rating: {{ ticket.rating }}</p>
     <p></p>

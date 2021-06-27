@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load humanize %}
+
 {% block title %}
 Tous les tickets de {{ user }}
 {% endblock title %}
@@ -13,7 +15,7 @@ Tous les tickets de {{ user }}
 {% if ticket.title %}
 <div style="border-style: solid;width: 80%;margin: auto;word-wrap:break-word;">
     <div style="font-size: 10px; text-align: right;vertical-align: text-top;">
-        {{ ticket.time_created }}
+        {{ ticket.time_created|naturaltime }}
     </div>
     <div>Vous avez demande une critique</div>
     <br>
@@ -39,7 +41,8 @@ Tous les tickets de {{ user }}
     <div>
         <!-- Critique {{ forloop.counter }} by {{ ticket.user }} -->
         <div>Vous avez publie une critique</div>
-        <div style="font-size: 10px; text-align: right;vertical-align: text-top;">{{ ticket.time_created }}</div>
+        <div style="font-size: 10px; text-align: right;vertical-align: text-top;">{{ ticket.time_created|naturaltime }}
+        </div>
     </div>
     <p style="font-size: 20px;">{{ ticket.headline }} - rating: {{ ticket.rating }}</p>
     <p></p>
