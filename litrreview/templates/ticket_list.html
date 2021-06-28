@@ -2,47 +2,51 @@
 
 {% load humanize %}
 
-
 {% block title %}
 Tickets
 {% endblock title %}
 
 {% block content %}
-<div class="row justify-content-md-center">
-    <div class="col-sm-3">
-        <a class="btn btn-secondary btn-lg btn-block" href="{% url 'ticket_new' %}" role="button">Demander une
-            critique</a>
-    </div>
-    <div class="col-sm-3">
-        <a class="btn btn-secondary btn-lg btn-block" href="{% url 'ticket_review_new' %}" role="button">Creer une
-            critique</a>
-    </div>
+
+<div class="row justify-content-md-center mb-4">
+    <a class="btn btn-outline-primary mr-3 col-sm-3" href="{% url 'ticket_new' %}" role="button">Demander une
+        critique</a>
+    <a class="btn btn-outline-primary col-sm-3" href="{% url 'ticket_review_new' %}" role="button">Creer une
+        critique</a>
 </div>
 
 {% for ticket in object_list %}
 {% if ticket.title %}
+<!-- Ticket card -->
 <div class="container">
     <div class="row">
         <div class="col">
         </div>
-        <div class="col-6 border border-dark">
-            <!-- <span class=""></span> -->
+        <div class="card w-75">
+            <div class="card-header">
+                <small>Posted by <a href="#">{{ticket.user}}</a> {{ ticket.time_created|naturaltime }}</small>
+            </div>
+            <div class="row no-gutters">
+                <div class="col-sm-2">
+                    <img src="{{ ticket.image.url }}" class="img-fluid" alt="...">
+                </div>
+                <div class="col-sm-7">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ticket.title}}</h5>
+                        <p class="card-text">{{ticket.description}}</p>
 
-            <h3><a href="#">{{ticket.title}}</a></h3>
-            <p><small>Posted by <a href="#">{{ticket.user}}</a> {{ ticket.time_created|naturaltime }}</small></p>
-            <p>{{ticket.description}}</p>
-            <p><a href="#">Read More</a></p>
-            <img src="{{ ticket.image.url }}" alt="no image" width="90" height="144">
-            <img src="{{ ticket.image.url }}" class="img-thumbnail" alt="Image Thumbnail">
-
+                    </div>
+                </div>
+            </div>
             {% if  ticket.comments.all %}
             {% if ticket.comments.all|length_is:"1" %}
             {% for comment in ticket.comments.all %}
             {% ifnotequal  comment.user.username user.username %}
             {% ifequal comment.user.username ticket.user.username %}
-            <div style=" text-align: right;margin-right: 20px;margin-bottom: 20px;">
+            <div class="card-footer text-muted">
                 <form action="{% url 'review_new' ticket.pk %}">
-                    <input style="width: 10em;  height: 3em;" type="submit" value="Creer une critique" />
+                    <input class="btn btn-primary stretched-link float-right" type="submit"
+                        value="Creer une critique" />
                 </form>
             </div>
             {% endifequal %}
@@ -50,13 +54,11 @@ Tickets
             {% endfor %}
             {% endif %}
             {% else %}
-            <div style=" text-align: right;margin-right: 20px;margin-bottom: 20px;">
+            <div class="card-footer text-muted">
                 <form action="{% url 'review_new' ticket.pk %}">
-                    <input style="width: 10em;  height: 3em;" type="submit" value="Creer une critique" />
+                    <input class="btn btn-primary stretched-link float-right" type="submit"
+                        value="Creer une critique" />
                 </form>
-                <a class="btn btn-primary btn-lg btn-block" href="{% url 'review_new' ticket.pk %}" role="button">Creer
-                    une
-                    critique</a>
             </div>
             {% endif %}
         </div>
@@ -64,50 +66,64 @@ Tickets
         </div>
     </div>
 </div>
-
+<!-- End ticket card -->
 <hr>
 {% else %}
-<div style="border-style: solid;width: 50%;margin: auto;word-wrap:break-word;">
-    <div>
-        <!-- Critique {{ forloop.counter }} by {{ ticket.user }} -->
-        <div>{{ ticket.user }} a publie une critique</div>
-        <div style="font-size: 10px; text-align: right;vertical-align: text-top;">{{ ticket.time_created|naturaltime }}
+<!-- Review card -->
+<div class="container">
+    <div class="row">
+        <div class="col"></div>
+        <div class="card w-75">
+            <div class="card-header">
+                <small><a href="#">{{ ticket.user }}</a> a publie une critique
+                    {{ ticket.time_created|naturaltime }}</small>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">{{ ticket.headline }}</h5>
+                <p class="card-text">{{ ticket.body|linebreaks }}</p>
+                <div class="row">
+                    <div class="col"></div>
+                    <div class="card" style="max-width: 500px;">
+                        <div class="card-header">
+                            <small>Ticket - <a href="#">{{ticket.ticket.user}}</a>
+                                {{ ticket.time_created|naturaltime }}</small>
+                        </div>
+                        <div class="row no-gutters">
+                            <div class="col-sm-5">
+                                <img src="{{ ticket.ticket.image.url }}" class="img-fluid" alt="...">
+                            </div>
+                            <div class="col-sm-7">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ticket.ticket.title}}</h5>
+                                    <p class="card-text">{{ ticket.ticket.description }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        {% if ticket.ticket.comments.all|length_is:"1" %}
+                        {% for comment in ticket.ticket.comments.all %}
+                        {% ifnotequal  comment.user.username user.username %}
+                        {% ifequal comment.user.username ticket.ticket.user.username %}
+                        <div class="card-footer text-muted">
+                            <form action="{% url 'review_new' ticket.pk %}">
+                                <input class="btn btn-primary stretched-link float-right" type="submit"
+                                    value="Creer une critique" />
+                            </form>
+                        </div>
+                        {% endifequal %}
+                        {% endifnotequal %}
+                        {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div class="col"></div>
+                </div>
+            </div>
         </div>
-    </div>
-    <p style="font-size: 20px;">{{ ticket.headline }} - rating: {{ ticket.rating }}</p>
-    <p></p>
-    <p>{{ ticket.body|linebreaks }}</p>
-    <div style="border-style: solid;width: 90%;margin: auto;word-wrap:break-word;">
-        <div>Ticket - {{ticket.ticket.user}}</div>
-        <br>
-        <div>{{ticket.ticket.title}}</div>
-        <p>{{ ticket.ticket.description }}</p>
-        <img src="{{ ticket.ticket.image.url }}" alt="no image" width="90" height="144">
-        <div>
-            <!-- <a href="{% url 'review_edit' ticket.pk %}">Edit</a> | -->
-            <!-- <a href="{% url 'review_delete' ticket.pk %}">Delete</a>| -->
-        </div>
-
-        {% if ticket.ticket.comments.all|length_is:"1" %}
-        {% for comment in ticket.ticket.comments.all %}
-        {% ifnotequal  comment.user.username user.username %}
-        {% ifequal comment.user.username ticket.ticket.user.username %}
-        <div style=" text-align: right;margin-right: 20px;margin-bottom: 20px;">
-            <form action="{% url 'review_new' ticket.pk %}">
-                <input style="width: 10em;  height: 3em;" type="submit" value="Creer une critique" />
-            </form>
-        </div>
-        {% endifequal %}
-        {% endifnotequal %}
-
-
-        {% endfor %}
-        {% endif %}
+        <div class="col"></div>
     </div>
 </div>
+<!-- End Review card -->
 <hr>
 {% endif %}
 {% endfor %}
-
 
 {% endblock content %}
