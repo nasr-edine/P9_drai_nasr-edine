@@ -1,25 +1,53 @@
 {% extends 'base.html' %}
 
+{% load humanize %}
+
 {% load crispy_forms_tags %}
 
 {% block content %}
-
 <h1 style="text-align:center;">Creer une critique</h1>
-<div style="padding: 50px;border-style: solid;width: 70%;margin: auto;word-wrap:break-word;">
-    <p>Vous etes entrain de poster en reponse a:</p>
-    <div style="border-style: dotted;width: 500px;margin: auto;word-wrap:break-word;">
-        <h2>{{ ticket.title }}</h2>
-        <p>{{ticket.user}} | {{ ticket.time_created }}</p>
-        <p>{{ ticket.description }}</p>
-        <img src="{{ ticket.image.url }}" alt="no image" width="90" height="144">
-    </div>
-    <hr>
-    <p>Critique</p>
-    <form method="post">
-        {% csrf_token %}
-        {{ form|crispy }}
-        <button class="btn btn-success" type="submit">Envoyer</button>
 
-    </form>
+<div class="card">
+    <div class="card-header">
+        Vous etes entrain de poster en reponse a:
+    </div>
+    <div class="card-body">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                </div>
+                <div class="card w-75">
+                    <div class="card-header">
+                        <small>{{ticket.user}} a demande une critique
+                            {{ ticket.time_created|naturaltime }}</small>
+                    </div>
+                    <div class="row no-gutters">
+                        <div class="col-sm-2">
+                            <img src="{{ ticket.image.url }}" class="img-fluid" alt="...">
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ticket.title}}</h5>
+                                <p class="card-text">{{ticket.description}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer text-muted">
+                    </div>
+                </div>
+                <div class="col">
+                </div>
+            </div>
+        </div>
+        <hr>
+        <p>Critique</p>
+        <form method="post">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button class="btn btn-primary float-right" type="submit">Envoyer</button>
+
+        </form>
+    </div>
 </div>
+
 {% endblock content %}

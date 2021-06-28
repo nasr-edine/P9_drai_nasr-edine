@@ -28,30 +28,48 @@ Tous les abonnes de {{ user }}
     {{ form.follower|as_crispy_field }}
     <button type="submit" class="btn btn-success">Envoyer</button>
 </form>
-<h1 style="text-align: center;">Abonnements</h1>
+<hr>
+<h1>Mes abonnements</h1>
 <div>
-    <table style="width: 80%;margin-left: auto; margin-right: auto;">
-        {% for follow in follow_user %}
-        <tr>
-            <th style="text-align: left;width: 80%; border: 1px solid black;">{{ follow.followed_user }}</th>
-            <td style="text-align: center; border: 1px solid black;">
-                <a type="button" role="button" href="{% url 'follow_delete' follow.id %}">Desabonner</a>
-            </td>
-        </tr>
-        {% endfor %}
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Utilisateur</th>
+                <th scope="col">Se Desabonner</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for follow in follow_user %}
+            <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ follow.followed_user }}</td>
+                <td><a class="btn btn-danger stretched-link" href="{% url 'follow_delete' follow.id %}"
+                        role="button">Desabonner</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
     </table>
-
 </div>
+<hr>
+<h1>Les abonnes a mes posts</h1>
 
-<h1 style="text-align: center;">Abonnes</h1>
-{% for follower in followed_by %}
-<table style="margin-left: auto; margin-right: auto;width: 80%;border: 1px solid black;">
-    <tr>
-        <td>
-            {{ follower.user }}
-        </td>
-    </tr>
-</table>
-{% endfor %}
-
+<div>
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Utilisateur</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for follower in followed_by %}
+            <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ follower.user }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock content %}

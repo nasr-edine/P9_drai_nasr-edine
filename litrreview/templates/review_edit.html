@@ -1,25 +1,55 @@
 {% extends 'base.html' %}
 
+{% load humanize %}
+
 {% load crispy_forms_tags %}
 
 {% block content %}
 <h1 style="text-align:center;">Modifier votre critique</h1>
-<div style="padding: 50px;border-style: solid;width: 70%;margin: auto;word-wrap:break-word;">
-    <p>Vous etes entrain de poster en reponse a:</p>
-    <div style="border-style: solid;width: 500px;margin: auto;word-wrap:break-word;">
-        <div style="font-size: 10px; text-align: right;vertical-align: text-top;">{{ review.ticket.time_created }}</div>
-        <div>{{review.ticket.user}} a demande une critique</div>
-        <p>{{ review.ticket.title }}</p>
-        <!-- <p>{{review.ticket.user}} | {{ review.ticket.time_created }}</p> -->
-        <p>{{ review.ticket.description }}</p>
-        <img src="{{ review.ticket.image.url }}" alt="no image" width="90" height="144">
+
+<div class="card">
+    <div class="card-header">
+        Vous etes entrain de poster en reponse a:
     </div>
-    <hr>
-    <p>Critique</p>
-    <form method="post">
-        {% csrf_token %}
-        {{ form|crispy }}
-        <button class="btn btn-info ml-2" type="submit">Envoyer</button>
-    </form>
+    <div class="card-body">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                </div>
+                <div class="card w-75">
+                    <div class="card-header">
+                        <small>{{review.ticket.user}} a demande une critique
+                            {{ review.ticket.time_created|naturaltime }}</small>
+                    </div>
+                    <div class="row no-gutters">
+                        <div class="col-sm-2">
+                            <img src="{{ review.ticket.image.url }}" class="img-fluid" alt="...">
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="card-body">
+                                <h5 class="card-title">{{review.ticket.title}}</h5>
+                                <p class="card-text">{{review.ticket.description}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer text-muted">
+
+                    </div>
+                </div>
+                <div class="col">
+                </div>
+            </div>
+        </div>
+        <hr>
+        <p>Critique</p>
+        <form method="post">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button class="btn btn-primary float-right" type="submit">Envoyer</button>
+
+        </form>
+    </div>
 </div>
+
+
 {% endblock content %}

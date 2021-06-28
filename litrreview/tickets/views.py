@@ -182,55 +182,6 @@ class TicketReviewCreateView(LoginRequiredMixin, FormView):
         review.save()
         return super().form_valid(form)
 
-# class TicketForm(forms.Form):
-#     title = forms.CharField(max_length=128)
-#     description = forms.TextField(max_length=2048)
-#     # time_created = forms.DateTimeField(auto_now_add=True)
-#     image = forms.ImageField(upload_to='images/', null=True, blank=True)
-
-
-# class ReviewForm(ModelForm):
-#     class Meta:
-#         model = Review
-#         fields = ['headline', 'rating', 'body']
-
-
-# def MyView(request):
-#     if request.method == 'POST':
-#         form = TicketForm(request.POST)
-#         if form.is_valid():
-#             pass  # does nothing, just trigger the validation
-#     else:
-#         form = TicketForm()
-#     return render(request, 'home.html', {'form': form})
-
-
-# class MyView(LoginRequiredMixin, TemplateView):
-#     form_class = TicketForm
-#     # form_class2 = ReviewForm
-#     if form_class.is_valid():
-#         school = form_class.save(commit=False)
-#         school.save()
-
-#     def get(self, request):
-#         return render(request, 'name.html', {
-#             'form': self.form_class,
-#             # "form2": self.form_class2
-#         })
-
-
-# class QuestionDetail(LoginRequiredMixin, View):
-#     template_name = 'review_ticket_new.html'
-
-#     def get_context_data(self, **kwargs):
-#         # kwargs['question'] = self.get_object()
-#         # if 'response_form' not in kwargs:
-#         kwargs['response_form'] = ResponseForm()
-#         # if 'comment_form' not in kwargs:
-#         kwargs['comment_form'] = CommentForm()
-
-#         return kwargs
-
 
 class ReviewUpdateView(LoginRequiredMixin, UpdateView):
     model = Review

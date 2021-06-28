@@ -8,85 +8,87 @@ Tous les tickets de {{ user }}
 
 {% block content %}
 <h1 style="text-align: center;">Vos posts</h1>
-
+<hr>
 {% for ticket in object_list %}
 
-<!-- if post is a ticket -->
 {% if ticket.title %}
-<div style="border-style: solid;width: 80%;margin: auto;word-wrap:break-word;">
-    <div style="font-size: 10px; text-align: right;vertical-align: text-top;">
-        {{ ticket.time_created|naturaltime }}
-    </div>
-    <div>Vous avez demande une critique</div>
-    <br>
-    <div>{{ticket.title}}</div>
-    <p>{{ticket.description}}</p>
-    <img src="{{ ticket.image.url }}" alt="no image" width="90" height="144">
-    <div style="width: 100%; margin-bottom: 20px;margin: 20px;">
-        <div style="width: 50%; float: left;text-align: right;margin-bottom: 20px;">
-            <form style="margin-right: 20px;" action="{% url 'ticket_edit' ticket.pk %}">
-                <input style="width: 10em;  height: 3em;" type="submit" value="Modifier" />
-            </form>
+<!-- Ticket card -->
+<div class="container">
+    <div class="row">
+        <div class="col">
         </div>
-        <div style="margin-left: 50%; ">
-            <form style="margin-left: 20px;" action="{% url 'ticket_delete' ticket.pk %}">
-                <input style="width: 10em;  height: 3em;" type="submit" value="Supprimer" />
-            </form>
+        <div class="card w-75">
+            <div class="card-header">
+                <small>Vous avez demande une critique {{ ticket.time_created|naturaltime }}</small>
+            </div>
+            <div class="row no-gutters">
+                <div class="col-sm-2">
+                    <img src="{{ ticket.image.url }}" class="img-fluid" alt="...">
+                </div>
+                <div class="col-sm-7">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ticket.title}}</h5>
+                        <p class="card-text">{{ticket.description}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-muted">
+                <a class="btn btn-danger stretched-link float-right col-sm-2" href="{% url 'ticket_delete' ticket.pk %}"
+                    role="button">Supprimer</a>
+                <a class="btn btn-success stretched-link float-right col-sm-2 mr-3 "
+                    href="{% url 'ticket_edit' ticket.pk %}" role="button">Modifier</a>
+            </div>
+        </div>
+        <div class="col">
         </div>
     </div>
 </div>
+<!-- End ticket card -->
+
 <hr>
 {% else %}
-<div style="border-style: solid;width: 80%;margin: auto;word-wrap:break-word;">
-    <div>
-        <!-- Critique {{ forloop.counter }} by {{ ticket.user }} -->
-        <div>Vous avez publie une critique</div>
-        <div style="font-size: 10px; text-align: right;vertical-align: text-top;">{{ ticket.time_created|naturaltime }}
+<!-- Review card -->
+<div class="container">
+    <div class="row">
+        <div class="col"></div>
+        <div class="card w-75">
+            <div class="card-header">
+                <small>Vous avez publie une critique
+                    {{ ticket.time_created|naturaltime }}</small>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">{{ ticket.headline }}</h5>
+                <p class="card-text">{{ ticket.body|linebreaks }}</p>
+                <div class="row">
+                    <div class="col"></div>
+                    <div class="card" style="max-width: 500px;">
+                        <div class="card-header">
+                            <small>Ticket - <a href="#">{{ticket.ticket.user}}</a>
+                                {{ ticket.time_created|naturaltime }}</small>
+                        </div>
+                        <div class="row no-gutters">
+                            <div class="col-sm-5">
+                                <img src="{{ ticket.ticket.image.url }}" class="img-fluid" alt="...">
+                            </div>
+                            <div class="col-sm-7">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ticket.ticket.title}}</h5>
+                                    <p class="card-text">{{ ticket.ticket.description }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col"></div>
+                </div>
+            </div>
+            <div class="card-footer text-muted">
+                <a class="btn btn-danger stretched-link float-right col-sm-2" href="{% url 'review_delete' ticket.pk %}"
+                    role="button">Supprimer</a>
+                <a class="btn btn-success stretched-link float-right col-sm-2 mr-3 "
+                    href="{% url 'review_edit' ticket.pk %}" role="button">Modifier</a>
+            </div>
         </div>
-    </div>
-    <p style="font-size: 20px;">{{ ticket.headline }} - rating: {{ ticket.rating }}</p>
-    <p></p>
-    <p>{{ ticket.body|linebreaks }}</p>
-    <div style="border-style: solid;width: 500px;margin: auto;word-wrap:break-word;">
-        <div>Ticket - {{ticket.ticket.user}}</div>
-        <br>
-        <div>{{ticket.ticket.title}}</div>
-        <p>{{ ticket.ticket.description }}</p>
-        <img src="{{ ticket.ticket.image.url }}" alt="no image" width="90" height="144">
-        <!-- <div>
-            <a href="{% url 'review_edit' ticket.pk %}">Edit</a> |
-            <a href="{% url 'review_delete' ticket.pk %}">Delete</a>|
-        </div> -->
-
-        <!-- {% if ticket.ticket.comments.all|length_is:"1" %}
-        {% for comment in ticket.ticket.comments.all %}
-        {% ifnotequal  comment.user.username user.username %}
-        {% ifequal comment.user.username ticket.ticket.user.username %}
-        <div style=" text-align: right;margin-right: 20px;margin-bottom: 20px;">
-            <form action="{% url 'review_new' ticket.pk %}">
-                <input style="width: 10em;  height: 3em;" type="submit" value="Creer une critique" />
-            </form>
-        </div>
-        {% endifequal %}
-        {% endifnotequal %}
-
-
-        {% endfor %}
-        {% endif %} -->
-    </div>
-    <div style="width: 100%;margin-bottom: 20px;margin-top: 20px;">
-        <!-- <a href="{% url 'review_edit' ticket.pk %}">Edit</a> |
-        <a href="{% url 'review_delete' ticket.pk %}">Delete</a>| -->
-        <div style="width: 50%; float: left; text-align: right;">
-            <form style="margin-right: 20px;" action="{% url 'review_edit' ticket.pk %}">
-                <input style="width: 10em;  height: 3em;" type="submit" value="Modifier" />
-            </form>
-        </div>
-        <div style="margin-left: 50%;">
-            <form style="margin-left: 20px;" action="{% url 'review_delete' ticket.pk %}">
-                <input style="width: 10em;  height: 3em;" type="submit" value="Supprimer" />
-            </form>
-        </div>
+        <div class="col"></div>
     </div>
 </div>
 <hr>
