@@ -6,6 +6,7 @@
 <form method="post">
     {% csrf_token %}
     <p>Are you sure you want to delete "{{ ticket.title }}" ?</p>
-    <button class="btn btn-danger ml-2" type="submit">Confirmer</button>
+    <button class="btn btn-danger" type="submit">Confirmer</button>
+    <a class="btn btn-primary" href="{% url 'ticket_current_user_list' %}" role="button">Annuler</a>
 </form>
 {% endblock content %}

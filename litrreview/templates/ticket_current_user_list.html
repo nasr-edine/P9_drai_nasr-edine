@@ -22,6 +22,8 @@ Tous les tickets de {{ user }}
                 <small>Vous avez demande une critique {{ ticket.time_created|naturaltime }}</small>
             </div>
             <div class="row no-gutters">
+                {% if ticket.image %}
+
                 <div class="col-sm-2">
                     <img src="{{ ticket.image.url }}" class="img-fluid" alt="...">
                 </div>
@@ -31,6 +33,13 @@ Tous les tickets de {{ user }}
                         <p class="card-text">{{ticket.description}}</p>
                     </div>
                 </div>
+                {% else %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ticket.title}}</h5>
+                    <p class="card-text">{{ticket.description}}</p>
+                </div>
+                {% endif %}
+
             </div>
             <div class="card-footer text-muted">
                 <a class="btn btn-danger stretched-link float-right col-sm-2" href="{% url 'ticket_delete' ticket.pk %}"
@@ -58,6 +67,12 @@ Tous les tickets de {{ user }}
             </div>
             <div class="card-body">
                 <h5 class="card-title">{{ ticket.headline }}</h5>
+                {% with ''|center:ticket.rating as range %}
+                {% for _ in range %}
+                <i class="fas fa-star"></i>
+                {% endfor %}
+                {% endwith %}
+
                 <p class="card-text">{{ ticket.body|linebreaks }}</p>
                 <div class="row">
                     <div class="col"></div>
@@ -67,6 +82,7 @@ Tous les tickets de {{ user }}
                                 {{ ticket.time_created|naturaltime }}</small>
                         </div>
                         <div class="row no-gutters">
+                            {% if ticket.ticket.image %}
                             <div class="col-sm-5">
                                 <img src="{{ ticket.ticket.image.url }}" class="img-fluid" alt="...">
                             </div>
@@ -76,6 +92,13 @@ Tous les tickets de {{ user }}
                                     <p class="card-text">{{ ticket.ticket.description }}</p>
                                 </div>
                             </div>
+                            {% else %}
+                            <div class="card-body">
+                                <h5 class="card-title">{{ticket.ticket.title}}</h5>
+                                <p class="card-text">{{ ticket.ticket.description }}</p>
+                            </div>
+                            {% endif %}
+
                         </div>
                     </div>
                     <div class="col"></div>

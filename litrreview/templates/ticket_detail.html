@@ -10,9 +10,9 @@
 
 </div>
 <p>
-    <a href="{% url 'ticket_edit' ticket.pk %}">Edit</a>
+    <!-- <a href="{% url 'ticket_edit' ticket.pk %}">Edit</a>
     <a href="{% url 'ticket_delete' ticket.pk %}">Delete</a>
-    <a href="{% url 'review_new' ticket.pk %}">Creer une critique</a>
+    <a href="{% url 'review_new' ticket.pk %}">Creer une critique</a> -->
 </p>
 <div>
     {% with object.comments.count as total_comments %}

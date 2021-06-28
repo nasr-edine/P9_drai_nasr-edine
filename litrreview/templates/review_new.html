@@ -23,7 +23,9 @@
                     </div>
                     <div class="row no-gutters">
                         <div class="col-sm-2">
+                            {% if ticket.image %}
                             <img src="{{ ticket.image.url }}" class="img-fluid" alt="...">
+                            {% endif %}
                         </div>
                         <div class="col-sm-7">
                             <div class="card-body">
@@ -44,8 +46,8 @@
         <form method="post">
             {% csrf_token %}
             {{ form|crispy }}
-            <button class="btn btn-primary float-right" type="submit">Envoyer</button>
-
+            <button class="btn btn-primary" type="submit">Envoyer</button>
+            <a class="btn btn-danger" href="{% url 'ticket_list' %}" role="button">Annuler</a>
         </form>
     </div>
 </div>

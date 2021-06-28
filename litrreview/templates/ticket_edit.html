@@ -9,10 +9,12 @@
     {% csrf_token %}
     {{ form|crispy }}
     <div>
+        {% if ticket.image %}
         <img src="{{ ticket.image.url }}" alt="no image" width="90" height="144">
+        {% endif %}
     </div>
-    <!-- <button class="btn btn-info ml-2" type="submit">Envoyer</button> -->
-    <button class="btn btn-primary float-right" type="submit">Envoyer</button>
-
+    <br>
+    <button class="btn btn-primary" type="submit">Envoyer</button>
+    <a class="btn btn-danger" href="{% url 'ticket_current_user_list' %}" role="button">Annuler</a>
 </form>
 {% endblock content %}

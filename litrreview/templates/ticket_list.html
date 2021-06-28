@@ -26,6 +26,7 @@ Tickets
                 <small>Posted by <a href="#">{{ticket.user}}</a> {{ ticket.time_created|naturaltime }}</small>
             </div>
             <div class="row no-gutters">
+                {% if ticket.image %}
                 <div class="col-sm-2">
                     <img src="{{ ticket.image.url }}" class="card-img img-fluid" alt="...">
                 </div>
@@ -33,9 +34,15 @@ Tickets
                     <div class="card-body">
                         <h5 class="card-title">{{ticket.title}}</h5>
                         <p class="card-text">{{ticket.description}}</p>
-
                     </div>
                 </div>
+                {% else %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ticket.title}}</h5>
+                    <p class="card-text">{{ticket.description}}</p>
+                </div>
+                {% endif %}
+
             </div>
             {% if  ticket.comments.all %}
             {% if ticket.comments.all|length_is:"1" %}
@@ -79,6 +86,13 @@ Tickets
             </div>
             <div class="card-body">
                 <h5 class="card-title">{{ ticket.headline }}</h5>
+                {% with ''|center:ticket.rating as range %}
+                {% for _ in range %}
+                <i class="fas fa-star"></i>
+                {% endfor %}
+                {% endwith %}
+
+
                 <p class="card-text">{{ ticket.body|linebreaks }}</p>
                 <div class="row">
                     <div class="col"></div>
@@ -88,6 +102,8 @@ Tickets
                                 {{ ticket.time_created|naturaltime }}</small>
                         </div>
                         <div class="row no-gutters">
+                            {% if ticket.ticket.image %}
+
                             <div class="col-sm-5">
                                 <img src="{{ ticket.ticket.image.url }}" class="img-fluid" alt="...">
                             </div>
@@ -97,6 +113,13 @@ Tickets
                                     <p class="card-text">{{ ticket.ticket.description }}</p>
                                 </div>
                             </div>
+                            {% else %}
+                            <div class="card-body">
+                                <h5 class="card-title">{{ticket.ticket.title}}</h5>
+                                <p class="card-text">{{ ticket.ticket.description }}</p>
+                            </div>
+                            {% endif %}
+
                         </div>
                         {% if ticket.ticket.comments.all|length_is:"1" %}
                         {% for comment in ticket.ticket.comments.all %}

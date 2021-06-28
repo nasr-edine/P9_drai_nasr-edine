@@ -6,7 +6,7 @@
 <form method="post">
     {% csrf_token %}
     <p>Are you sure you want to delete "{{ userfollows.followed_user }}" ?</p>
-    <button class="btn btn-danger ml-2" type="submit">Confirmer</button>
-
+    <button class="btn btn-danger" type="submit">Confirmer</button>
+    <a class="btn btn-primary" href="{% url 'follow' %}" role="button">Annuler</a>
 </form>
 {% endblock content %}

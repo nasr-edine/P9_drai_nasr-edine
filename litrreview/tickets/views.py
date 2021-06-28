@@ -88,6 +88,7 @@ class TicketCreateView(LoginRequiredMixin, CreateView):
 
     fields = ('title', 'description', 'image')
     login_url = 'login'
+    success_url = reverse_lazy('ticket_list')
 
     def form_valid(self, form):
         form.instance.user = self.request.user
